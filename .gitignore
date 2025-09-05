@@ -1,0 +1,68 @@
+# ------------------------
+# Python cache and bytecode
+# ------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ------------------------
+# Data and database files
+# ------------------------
+data/*.json
+data/*.db
+*.sqlite3
+
+# ------------------------
+# IDE / editor files
+# ------------------------
+.vscode/
+*.code-workspace
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ------------------------
+# Operating system files
+# ------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ------------------------
+# Python virtual environment
+# ------------------------
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ------------------------
+# Logs
+# ------------------------
+*.log
+
+# ------------------------
+# Jupyter Notebook checkpoints
+# ------------------------
+.ipynb_checkpoints/
+
+# ------------------------
+# Build / distribution
+# ------------------------
+build/
+dist/
+*.egg-info/
+*.egg
+*.whl
+
+# ------------------------
+# Pillow / image cache
+# ------------------------
+__pillow_cache__/
+
+# ------------------------
+# Environment files (API keys, secrets)
+# ------------------------
+.env
