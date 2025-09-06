@@ -1,7 +1,8 @@
 import customtkinter as ctk
-from gui.search_panel import SearchPanel
-from gui.movie_detail_panel import MovieDetailPanel
-from api_handler import fetch_movie_data
+from .gui.search_panel import SearchPanel
+from .gui.movie_detail_panel import MovieDetailPanel
+from .api_handler import fetch_movie_data
+from .gui.favorites_panel import FavoritesPanel
 
 def main():
     def on_movie_search(movie_name):
@@ -11,6 +12,12 @@ def main():
         else:
             print('Movie not found!')
 
+    def add_current_movie_to_favorites(movie_data):
+        favorites_panel.add_to_favorites(movie_data)
+
+    def add_current_movie_to_watch(movie_data):
+        favorites_panel.add_to_watch(movie_data)
+
     ctk.set_appearance_mode('dark')
     ctk.set_default_color_theme('blue')
 
@@ -19,11 +26,14 @@ def main():
     root.geometry('900x600')
     root.bind('<Escape>', lambda event: root.destroy())
 
+    search_panel = SearchPanel(root, search_callback=on_movie_search)
+    search_panel.pack(pady=20)
+
     movie_detail_panel = MovieDetailPanel(root)
     movie_detail_panel.pack(pady=20)
 
-    search_panel = SearchPanel(root, search_callback=on_movie_search)
-    search_panel.pack(pady=20)
+    favorites_panel = FavoritesPanel(root)
+    favorites_panel.pack(pady=20)
 
     root.mainloop()
 
