@@ -12,12 +12,6 @@ def main():
         else:
             print('Movie not found!')
 
-    def add_current_movie_to_favorites(movie_data):
-        favorites_panel.add_to_favorites(movie_data)
-
-    def add_current_movie_to_watch(movie_data):
-        favorites_panel.add_to_watch(movie_data)
-
     ctk.set_appearance_mode('dark')
     ctk.set_default_color_theme('blue')
 
@@ -27,12 +21,14 @@ def main():
     root.bind('<Escape>', lambda event: root.destroy())
 
     search_panel = SearchPanel(root, search_callback=on_movie_search)
-    search_panel.pack(pady=20)
-
-    movie_detail_panel = MovieDetailPanel(root)
-    movie_detail_panel.pack(pady=20)
-
     favorites_panel = FavoritesPanel(root)
+    movie_detail_panel = MovieDetailPanel(
+        root,
+        add_callback=favorites_panel.add_to_favorites,
+        watch_callback=favorites_panel.add_to_watch
+    )
+    search_panel.pack(pady=20)
+    movie_detail_panel.pack(pady=20)
     favorites_panel.pack(pady=20)
 
     root.mainloop()
