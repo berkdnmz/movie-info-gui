@@ -23,6 +23,8 @@ def save_movie_list(filename, movie):
 def load_movie_list(filename):
     filepath = os.path.join(DATA_DIR, filename)
     if os.path.exists(filepath):
+        if os.path.getsize(filepath) == 0:
+            return []
         with open(filepath, 'r') as f:
             return json.load(f)
     return []

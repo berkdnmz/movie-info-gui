@@ -17,11 +17,11 @@ class FavoritesPanel(ctk.CTkFrame):
         self.refresh_list()
 
     def refresh_list(self):
-        self.listbox.delete('0', ctk.END)
+        self.listbox.delete('1.0', 'end')
         favorites = load_movie_list('favorites.json')
         to_watch = load_movie_list('to_watch.json')
 
-        self.listbox.insert('0', 'Favorites:\n')
+        self.listbox.insert('1.0', 'Favorites:\n')
         for f in favorites:
             self.listbox.insert('end', f"- {f.get('Title')} {f.get('added_at')}\n")
 
