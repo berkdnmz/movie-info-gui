@@ -19,7 +19,7 @@ class MovieDetailPanel(ctk.CTkFrame):
         self.add_fav_button = ctk.CTkButton(self, text='Add to Favorites', command=self.add_to_favorites)
         self.add_fav_button.grid(row=2, column=0, pady=5)
 
-        self.add_watch_button = ctk.CTkButton(self, text='Add to Watch')
+        self.add_watch_button = ctk.CTkButton(self, text='Add to Watch', command=self.add_to_watch)
         self.add_watch_button.grid(row=2, column=2, pady=5)
 
     def update_movie(self, movie_data):
