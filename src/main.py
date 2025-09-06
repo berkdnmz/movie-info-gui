@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from src.utils import get_window_geometry
 from .gui.search_panel import SearchPanel
 from .gui.movie_detail_panel import MovieDetailPanel
 from .api_handler import fetch_movie_data
@@ -17,7 +18,7 @@ def main():
 
     root = ctk.CTk()
     root.title('Movie Info Dashboard')
-    root.geometry('900x600')
+    root.geometry(get_window_geometry(root, 0.7, 0.85))
     root.bind('<Escape>', lambda event: root.destroy())
 
     search_panel = SearchPanel(root, search_callback=on_movie_search)
@@ -28,6 +29,9 @@ def main():
         watch_callback=favorites_panel.add_to_watch
     )
     search_panel.pack(pady=20)
+
+    # default movie for start
+    on_movie_search('Interstellar')
     movie_detail_panel.pack(pady=20)
     favorites_panel.pack(pady=20)
 

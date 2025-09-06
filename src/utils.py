@@ -13,7 +13,7 @@ def save_movie_list(filename, movie):
         with open(filepath, 'r', encoding='utf-8') as f:
             movies = json.load(f)
 
-    movie['added_at'] = datetime.now().strftime('%Y-%m-%d')
+    movie['added_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     movies.append(movie)
 
     with open(filepath, 'w') as f:
@@ -25,3 +25,15 @@ def load_movie_list(filename):
         with open(filepath, 'r', encoding='utf-8') as f:
             return json.load(f)
     return []
+
+def get_window_geometry(root, width_ratio=0.7, height_ratio=0.85):
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    width = int(screen_width * width_ratio)
+    height = int(screen_height * height_ratio)
+
+    x = (screen_width // 2) - (width // 2)
+    y = (screen_height // 2) - (height // 2) - 40
+
+    return f"{width}x{height}+{x}+{y}"
