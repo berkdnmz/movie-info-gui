@@ -31,12 +31,12 @@ class FavoritesPanel(ctk.CTkFrame):
         to_watch = load_movie_list('to_watch.json')
 
         # Dates are saved in CSV. Only titles are displayed for clarity.
-        spaces = "═" * 14
-        self.fav_listbox.insert('2.0', f" {spaces}║  FAVORITES  ║{spaces}\n\n")
+        spaces = "═" * 16
+        self.fav_listbox.insert('2.0', f"═{spaces} FAVORITES {spaces}\n")
         for f in favorites:
-            self.fav_listbox.insert('end', f"• {f.get('Title')}\n")
+            self.fav_listbox.insert('end', f"═ {f.get('Title')}\n")
 
-        self.watch_listbox.insert('end', F'  {spaces}║  TO WATCH  ║{spaces} \n\n')
+        self.watch_listbox.insert('end', F'══{spaces} TO WATCH {spaces}\n')
         for w in to_watch:
-            self.watch_listbox.insert('end', f"• {w.get('Title')}\n")
+            self.watch_listbox.insert('end', f"═ {w.get('Title')}\n")
 

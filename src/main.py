@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from src.utils import get_window_geometry
+from .utils import get_window_geometry
 from .gui.search_panel import SearchPanel
 from .gui.movie_detail_panel import MovieDetailPanel
 from .api_handler import fetch_movie_data
@@ -14,7 +14,7 @@ def main():
             print('Movie not found!')
 
     ctk.set_appearance_mode('dark')
-    ctk.set_default_color_theme('blue')
+    ctk.set_default_color_theme('dark-blue')
 
     root = ctk.CTk()
     root.title('Movie Info Dashboard')
