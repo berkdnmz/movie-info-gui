@@ -34,6 +34,7 @@ def main():
     on_movie_search('Interstellar')
     movie_detail_panel.pack(pady=20)
     favorites_panel.pack(pady=20)
+    root.after(100, lambda: search_panel.movie_entry.focus())
 
     root.mainloop()
 
