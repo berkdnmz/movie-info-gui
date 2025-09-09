@@ -11,7 +11,7 @@ def main():
         if movie_data and movie_data.get('Response') == 'True':
             movie_detail_panel.update_movie(movie_data)
         else:
-            print('Movie not found!')
+            movie_detail_panel.show_message('Movie not found!')
 
     ctk.set_appearance_mode('dark')
     ctk.set_default_color_theme('dark-blue')
