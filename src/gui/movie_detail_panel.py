@@ -2,6 +2,7 @@ import customtkinter as ctk
 from PIL import Image
 import requests
 from io import BytesIO
+import webbrowser
 
 class MovieDetailPanel(ctk.CTkFrame):
     def __init__(self, master, add_callback = None, watch_callback = None, **kwargs):
@@ -9,6 +10,7 @@ class MovieDetailPanel(ctk.CTkFrame):
         self.current_movie = None
         self.add_callback = add_callback
         self.watch_callback = watch_callback
+        self.imdb_url = None
 
         # Poster frame
         self.poster_frame = ctk.CTkFrame(self, corner_radius=10)
@@ -65,8 +67,18 @@ class MovieDetailPanel(ctk.CTkFrame):
         self.add_watch_button = ctk.CTkButton(self.watch_button_frame, text='Add to Watch', command=self.add_to_watch, font=('Arial', 15, 'bold'))
         self.add_watch_button.grid(row=2, column=1, pady=5, padx=5)
 
+        # Open the movie's IMDb page when the poster is clicked
+        self.poster_label.bind('<Button-1>', lambda event: webbrowser.open(self.imdb_url) if self.imdb_url else None)
+
+        # Hover effect for poster
+        self.poster_label.bind('<Enter>', lambda event: self.poster_label.configure(cursor='hand2') if self.imdb_url else None)
+        self.poster_label.bind('<Enter>', lambda event: self.poster_frame.configure(fg_color='#545252') if self.imdb_url else None)
+        self.poster_label.bind('<Leave>', lambda event: self.poster_label.configure(cursor='') if self.imdb_url else None)
+        self.poster_label.bind('<Leave>', lambda event: self.poster_frame.configure(fg_color=('gray85', 'gray16')) if self.imdb_url else None)
+
     def update_movie(self, movie_data):
         self.current_movie = movie_data
+        self.imdb_url = f"https://www.imdb.com/title/{movie_data['imdbID']}/"
         poster_url = movie_data.get('Poster')
         if poster_url and poster_url !='N/A':
             response = requests.get(poster_url)
@@ -101,6 +113,7 @@ class MovieDetailPanel(ctk.CTkFrame):
         ctk_blank = ctk.CTkImage(light_image=blank_image, dark_image=blank_image, size=(300, 400))
         self.poster_label.configure(image=ctk_blank, text=message, font=('Arial', 30, 'bold'), text_color='white')
         self.poster_label.image = ctk_blank
+        self.imdb_url = None
 
         self.title_label.configure(text='Title: -')
         self.year_type_genre_label.configure(text='Year | Type | Genre: -')
