@@ -36,6 +36,12 @@ def main():
     favorites_panel.pack(pady=20)
     root.after(100, lambda: search_panel.movie_entry.focus())
 
+    # Creator label
+    creator_frame = ctk.CTkFrame(root, corner_radius=2, fg_color='#1E1E1E')
+    creator_frame.pack(side='bottom', anchor='e', padx=2, pady=2)
+    creator_label = ctk.CTkLabel(creator_frame, text='Created by Berk', font=("Pacifico", 15, "bold"), text_color=('gray85', 'gray16'))
+    creator_label.pack(padx=5, pady=2)
+
     root.mainloop()
 
 if __name__ == "__main__":
