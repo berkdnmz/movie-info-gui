@@ -37,3 +37,6 @@ def get_window_geometry(root, width_ratio=0.7, height_ratio=0.85):
     y = (screen_height // 2) - (height // 2) - 40
 
     return f"{width}x{height}+{x}+{y}"
+
+def clean_value(value: str) -> str:
+    return '-' if not value or value == 'N/A' else value

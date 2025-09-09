@@ -1,8 +1,11 @@
 import customtkinter as ctk
-from PIL import Image, UnidentifiedImageError
+from PIL import Image
 import requests
 from io import BytesIO
 import webbrowser
+
+from src.utils import clean_value
+
 
 class MovieDetailPanel(ctk.CTkFrame):
     def __init__(self, master, add_callback = None, watch_callback = None, **kwargs):
@@ -102,21 +105,21 @@ class MovieDetailPanel(ctk.CTkFrame):
             self.show_message('Poster not available', info=True)
 
         # Info
-        self.title_label.configure(text=f"Title: {movie_data.get('Title', '-')}")
+        self.title_label.configure(text=f"Title: {movie_data.get('Title')}")
         self.year_type_genre_label.configure(
-            text=f"{movie_data.get('Year', '-')}  |  {movie_data.get('Type', '-')}  |  {movie_data.get('Genre', '-')}"
+            text=f"{clean_value(movie_data.get('Year'))}  |  {clean_value(movie_data.get('Type'))}  |  {clean_value(movie_data.get('Genre'))}"
         )
-        self.runtime_label.configure(text=f"Runtime: {movie_data.get('Runtime', '-')}")
-        self.rating_label.configure(text=f"IMDb Rating: {movie_data.get('imdbRating', '-')}")
-        self.director_label.configure(text=f"Director: {movie_data.get('Director', '-')}")
-        self.actors_label.configure(text=f"Actors: {movie_data.get('Actors', '-')}")
+        self.runtime_label.configure(text=f"Runtime: {clean_value(movie_data.get('Runtime'))}")
+        self.rating_label.configure(text=f"IMDb Rating: {clean_value(movie_data.get('imdbRating'))}")
+        self.director_label.configure(text=f"Director: {clean_value(movie_data.get('Director'))}")
+        self.actors_label.configure(text=f"Actors: {clean_value(movie_data.get('Actors'))}")
         self.language_country_label.configure(
-            text=f"{movie_data.get('Language','-')}  |  {movie_data.get('Country', '-')}"
+            text=f"{clean_value(movie_data.get('Language'))}  |  {clean_value(movie_data.get('Country'))}"
         )
-        self.awards_label.configure(text=f"Awards: {movie_data.get('Awards', '-')}")
+        self.awards_label.configure(text=f"Awards: {clean_value(movie_data.get('Awards'))}")
         self.plot_textbox.configure(state='normal')
-        self.plot_textbox.delete('0.0', 'end')
-        self.plot_textbox.insert('0.0', movie_data.get('Plot', '-'))
+        self.plot_textbox.delete('1.0', 'end')
+        self.plot_textbox.insert('1.0', clean_value(movie_data.get('Plot')))
         self.plot_textbox.configure(state='disabled')
 
     def show_message(self, message, info):
