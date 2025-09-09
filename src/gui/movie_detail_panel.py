@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 import requests
 from io import BytesIO
 import webbrowser
@@ -76,19 +76,30 @@ class MovieDetailPanel(ctk.CTkFrame):
         self.poster_label.bind('<Leave>', lambda event: self.poster_label.configure(cursor='') if self.imdb_url else None)
         self.poster_label.bind('<Leave>', lambda event: self.poster_frame.configure(fg_color=('gray85', 'gray16')) if self.imdb_url else None)
 
+        # Blank image
+        blank_image = Image.new('RGB', (300, 400), color=(30, 30, 30))
+        self.ctk_blank = ctk.CTkImage(light_image=blank_image, dark_image=blank_image, size=(300, 400))
+
     def update_movie(self, movie_data):
         self.current_movie = movie_data
         self.imdb_url = f"https://www.imdb.com/title/{movie_data['imdbID']}/"
         poster_url = movie_data.get('Poster')
-        if poster_url and poster_url !='N/A':
-            response = requests.get(poster_url)
-            image = Image.open(BytesIO(response.content))
-            image = image.resize((300, 400))
-            ctk_image = ctk.CTkImage(light_image=image, dark_image=image, size=(300, 400))
-            self.poster_label.configure(image=ctk_image, text='')
-            self.poster_label.image = ctk_image
+
+        if poster_url:
+            try:
+                response = requests.get(poster_url, timeout=5)
+                response.raise_for_status()
+                image = Image.open(BytesIO(response.content))
+                image = image.resize((300, 400))
+                ctk_image = ctk.CTkImage(light_image=image, dark_image=image, size=(300, 400))
+                self.poster_label.configure(image=ctk_image, text='')
+                self.poster_label.image = ctk_image
+
+            except Exception as e:
+                print(f"Poster loading failed for {movie_data.get('Title')}: {e}")
+                self.show_message('Poster not available', info=True)
         else:
-            self.poster_label.configure(text='No Poster', image='', font=('Arial', 15, 'bold'), text_color='white')
+            self.show_message('Poster not available', info=True)
 
         # Info
         self.title_label.configure(text=f"Title: {movie_data.get('Title', '-')}")
@@ -108,24 +119,23 @@ class MovieDetailPanel(ctk.CTkFrame):
         self.plot_textbox.insert('0.0', movie_data.get('Plot', '-'))
         self.plot_textbox.configure(state='disabled')
 
-    def show_message(self, message):
-        blank_image = Image.new("RGB", (300, 400), color=(30, 30, 30))
-        ctk_blank = ctk.CTkImage(light_image=blank_image, dark_image=blank_image, size=(300, 400))
-        self.poster_label.configure(image=ctk_blank, text=message, font=('Arial', 30, 'bold'), text_color='white')
-        self.poster_label.image = ctk_blank
+    def show_message(self, message, info):
+        self.poster_label.configure(image=self.ctk_blank, text=message, font=('Arial', 30, 'bold'), text_color=('gray85', 'gray16'))
+        self.poster_label.image = self.ctk_blank
         self.imdb_url = None
 
-        self.title_label.configure(text='Title: -')
-        self.year_type_genre_label.configure(text='Year | Type | Genre: -')
-        self.runtime_label.configure(text='Runtime: -')
-        self.rating_label.configure(text='IMDb Rating: -')
-        self.director_label.configure(text='Director: -')
-        self.actors_label.configure(text='Actors: -')
-        self.language_country_label.configure(text='Language | Country: -')
-        self.awards_label.configure(text='Awards: -')
-        self.plot_textbox.configure(state='normal')
-        self.plot_textbox.delete('1.0', 'end')
-        self.plot_textbox.configure(state='disabled')
+        if not info:
+            self.title_label.configure(text='Title: -')
+            self.year_type_genre_label.configure(text='Year | Type | Genre: -')
+            self.runtime_label.configure(text='Runtime: -')
+            self.rating_label.configure(text='IMDb Rating: -')
+            self.director_label.configure(text='Director: -')
+            self.actors_label.configure(text='Actors: -')
+            self.language_country_label.configure(text='Language | Country: -')
+            self.awards_label.configure(text='Awards: -')
+            self.plot_textbox.configure(state='normal')
+            self.plot_textbox.delete('1.0', 'end')
+            self.plot_textbox.configure(state='disabled')
 
     def add_to_favorites(self):
         if self.current_movie and self.add_callback:
