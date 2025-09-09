@@ -66,3 +66,8 @@ __pillow_cache__/
 # Environment files (API keys, secrets)
 # ------------------------
 .env
+
+# ------------------------
+# Extras folder for temporary project experiments
+# ------------------------
+extras/
