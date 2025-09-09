@@ -100,9 +100,9 @@ class MovieDetailPanel(ctk.CTkFrame):
 
             except Exception as e:
                 print(f"Poster loading failed for {movie_data.get('Title')}: {e}")
-                self.show_message('Poster not available', info=True)
+                self.show_message('Poster not available', valid_movie=True)
         else:
-            self.show_message('Poster not available', info=True)
+            self.show_message('Poster not available', valid_movie=True)
 
         # Info
         self.title_label.configure(text=f"Title: {movie_data.get('Title')}")
@@ -121,13 +121,16 @@ class MovieDetailPanel(ctk.CTkFrame):
         self.plot_textbox.delete('1.0', 'end')
         self.plot_textbox.insert('1.0', clean_value(movie_data.get('Plot')))
         self.plot_textbox.configure(state='disabled')
+        self.add_fav_button.configure(state='normal')
+        self.add_watch_button.configure(state='normal')
 
-    def show_message(self, message, info):
+    def show_message(self, message, valid_movie):
         self.poster_label.configure(image=self.ctk_blank, text=message, font=('Arial', 30, 'bold'), text_color=('gray85', 'gray16'))
         self.poster_label.image = self.ctk_blank
         self.imdb_url = None
 
-        if not info:
+        if not valid_movie:
+            self.current_movie = None
             self.title_label.configure(text='Title: -')
             self.year_type_genre_label.configure(text='Year | Type | Genre: -')
             self.runtime_label.configure(text='Runtime: -')
@@ -139,6 +142,9 @@ class MovieDetailPanel(ctk.CTkFrame):
             self.plot_textbox.configure(state='normal')
             self.plot_textbox.delete('1.0', 'end')
             self.plot_textbox.configure(state='disabled')
+            # Disable buttons if invalid movie
+            self.add_fav_button.configure(state='disabled')
+            self.add_watch_button.configure(state='disabled')
 
     def add_to_favorites(self):
         if self.current_movie and self.add_callback:
