@@ -59,12 +59,12 @@ class MovieDetailPanel(ctk.CTkFrame):
         # Buttons
         self.fav_button_frame = ctk.CTkFrame(self, corner_radius=10)
         self.fav_button_frame.grid(row=2, column=0, pady=20, padx=20)
-        self.add_fav_button = ctk.CTkButton(self.fav_button_frame, text='Add to Favorites', command=self.add_to_favorites, font=('Arial', 15, 'bold'))
+        self.add_fav_button = ctk.CTkButton(self.fav_button_frame, text='Add to Favorites', command=self.add_to_favorites, font=('Arial', 15, 'bold'), text_color='white')
         self.add_fav_button.grid(row=0, column=0, pady=5, padx=5)
 
         self.watch_button_frame = ctk.CTkFrame(self, corner_radius=10)
         self.watch_button_frame.grid(row=2, column=1, pady=20, padx=20)
-        self.add_watch_button = ctk.CTkButton(self.watch_button_frame, text='Add to Watch', command=self.add_to_watch, font=('Arial', 15, 'bold'))
+        self.add_watch_button = ctk.CTkButton(self.watch_button_frame, text='Add to Watch', command=self.add_to_watch, font=('Arial', 15, 'bold'), text_color='white')
         self.add_watch_button.grid(row=2, column=1, pady=5, padx=5)
 
         # Open the movie's IMDb page when the poster is clicked

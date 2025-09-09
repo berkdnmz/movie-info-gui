@@ -14,7 +14,7 @@ class SearchPanel(ctk.CTkFrame):
         # Search frame
         self.search_button_frame = ctk.CTkFrame(self, corner_radius=10)
         self.search_button_frame.grid(row=0, column=1, pady=15, padx=15, sticky='n')
-        self.search_button = ctk.CTkButton(self.search_button_frame, text='Search', command=self.on_search, font=('Arial', 15, 'bold'))
+        self.search_button = ctk.CTkButton(self.search_button_frame, text='Search', command=self.on_search, font=('Arial', 15, 'bold'), text_color='white')
         self.search_button.grid(row=0, column=0, padx=5, pady=5)
 
         self.search_callback = search_callback
