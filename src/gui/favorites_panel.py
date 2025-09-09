@@ -25,6 +25,8 @@ class FavoritesPanel(ctk.CTkFrame):
         self.refresh_list()
 
     def refresh_list(self):
+        self.fav_listbox.configure(state='normal')
+        self.watch_listbox.configure(state='normal')
         self.fav_listbox.delete('1.0', 'end')
         self.watch_listbox.delete('1.0', 'end')
         favorites = load_movie_list('favorites.json')
@@ -35,8 +37,10 @@ class FavoritesPanel(ctk.CTkFrame):
         self.fav_listbox.insert('2.0', f"═{spaces} FAVORITES {spaces}\n")
         for f in favorites:
             self.fav_listbox.insert('end', f"═ {f.get('Title')}\n")
+        self.fav_listbox.configure(state='disabled')
 
         self.watch_listbox.insert('end', F'══{spaces} TO WATCH {spaces}\n')
         for w in to_watch:
             self.watch_listbox.insert('end', f"═ {w.get('Title')}\n")
+        self.watch_listbox.configure(state='disabled')
 
